@@ -3,9 +3,10 @@ NFL_TEAMS_SHORT = []
 for team in NFL_TEAMS:
     short = team.split()[-1]
     NFL_TEAMS_SHORT.append(short)
-print(NFL_TEAMS_SHORT)
+PLAYERS = {'Jeremy Koo', 'Alex Butensky', 'Brian Watson', 'Jeremy Simon'}
 
 # FUNCTION Declare number of players, with names
+## OR just use same names
 # Determine random order
 
 # FUNCTION draft
