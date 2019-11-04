@@ -1,3 +1,11 @@
+# programName.py
+#
+# Purpose of program
+# Usage:
+#      % python programName.py parameters
+#
+# Author and Date
+
 import csv
 
 team_list = []    # Store NFL Team Names
