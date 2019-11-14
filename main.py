@@ -5,27 +5,39 @@ import csv
 NFL_TEAMS = ['Arizona Cardinals', 'Atlanta Falcons', 'Baltimore Ravens', 'Buffalo Bills', 'Carolina Panthers', 'Chicago Bears', 'Cincinnati Bengals', 'Cleveland Browns', 'Dallas Cowboys', 'Denver Broncos', 'Detroit Lions', 'Green Bay Packers', 'Houston Texans', 'Indianapolis Colts', 'Jacksonville Jaguars', 'Kansas City Chiefs', 'Los Angeles Chargers', 'Los Angeles Rams', 'Miami Dolphins', 'Minnesota Vikings', 'New England Patriots', 'New Orleans Saints', 'New York Giants', 'New York Jets', 'Oakland Raiders', 'Philadelphia Eagles', 'Pittsburgh Steelers', 'San Francisco 49ers', 'Seattle Seahawks', 'Tampa Bay Buccaneers', 'Tennessee Titans', 'Washington Redskins']
 NFL_TEAMS_SHORT = [(team.split()[-1]) for team in NFL_TEAMS]
 
-PLAYERS = []
-PLAYERS_COUNT = 0
 #Seperate functions for seperate stages?
 #Store data in csv or database?
 
 
 def register_players():
-    global PLAYERS
-    global PLAYERS_COUNT 
+    PLAYERS = []
+    # PLAYERS_COUNT = 0
+    # global PLAYERS
+    # global PLAYERS_COUNT 
     while True:
-        newplayer = input("Enter Player's Name (or 'ready'?): ")
-        if newplayer.lower() == 'ready':
-            if len(PLAYERS) > 2:
+        if len(PLAYERS) > 0:
+            print(f"\nCurrent Players: ({len(PLAYERS)}) {PLAYERS}")
+        newplayer = input("  Enter Player's Name (or 'ready'?): ")
+        if newplayer.lower() == 'delete':
+            if len(PLAYERS) < 1:
+                print("\tNothing to delete!")
+            else:
+                print(f"\tDeleting {PLAYERS[-1]}")
+                PLAYERS.pop(-1)
+        elif newplayer.lower() == 'ready':
+            if len(PLAYERS) >= 2:
+                print("\tSaving players and shuffling draft order!")
                 break
-            print('You need more than just 1 player!')
-        if newplayer.lower() == 'exit':
-                print("EXITING")
+            print('\tYou need at least 2 players!')
+        elif newplayer.lower() == 'exit':
+                print("\tEXITING...")
                 del PLAYERS[:]
+                print("\t...All players deleted!")
                 break
-        if newplayer.lower() in [x.lower() for x in PLAYERS]:
-            print("Name already exists!")
+        elif newplayer.lower() in [x.lower() for x in PLAYERS]:
+            print("\tName already exists!")
+        elif newplayer in (""," ","   "):
+            print("\tEnter a valid name!")
         else:
             PLAYERS.append(newplayer)
     # PLAYERS_COUNT = len(PLAYERS)
@@ -34,17 +46,25 @@ def register_players():
     with open('players.csv',mode='w') as f:
         fwriter = csv.writer(f, delimiter=',',quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for player in PLAYERS:
-            fwriter.writerow(player)
+            fwriter.writerow([player])
 
 
 def read_players():
-    pass
-
+    PLAYERSREAD = []
+    PLAYERSCOUNT = 0
+    with open('players.csv',mode='r') as f:
+        freader = csv.reader(f, delimiter=',')
+        for row in freader:
+            if row != []:
+                PLAYERSREAD.append(row)
+                PLAYERSCOUNT += 1
+    print(PLAYERSREAD)
+    print(PLAYERSCOUNT)
     
 
 
-def print_players():
-    print(PLAYERS)
+# def print_players():
+#     print(PLAYERS)
 
 # def the_draft():
 #     while True:
@@ -97,5 +117,5 @@ def print_players():
 
 
 
-# if __name__ == '__main__':
-#     globals()[sys.argv[1]]()
+if __name__ == '__main__':
+    globals()[sys.argv[1]]()
