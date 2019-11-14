@@ -1,9 +1,88 @@
+import sys
+import random
+import csv
+
 NFL_TEAMS = ['Arizona Cardinals', 'Atlanta Falcons', 'Baltimore Ravens', 'Buffalo Bills', 'Carolina Panthers', 'Chicago Bears', 'Cincinnati Bengals', 'Cleveland Browns', 'Dallas Cowboys', 'Denver Broncos', 'Detroit Lions', 'Green Bay Packers', 'Houston Texans', 'Indianapolis Colts', 'Jacksonville Jaguars', 'Kansas City Chiefs', 'Los Angeles Chargers', 'Los Angeles Rams', 'Miami Dolphins', 'Minnesota Vikings', 'New England Patriots', 'New Orleans Saints', 'New York Giants', 'New York Jets', 'Oakland Raiders', 'Philadelphia Eagles', 'Pittsburgh Steelers', 'San Francisco 49ers', 'Seattle Seahawks', 'Tampa Bay Buccaneers', 'Tennessee Titans', 'Washington Redskins']
-NFL_TEAMS_SHORT = []
-for team in NFL_TEAMS:
-    short = team.split()[-1]
-    NFL_TEAMS_SHORT.append(short)
-PLAYERS = {'Jeremy Koo', 'Alex Butensky', 'Brian Watson', 'Jeremy Simon'}
+NFL_TEAMS_SHORT = [(team.split()[-1]) for team in NFL_TEAMS]
+
+PLAYERS = []
+PLAYERS_COUNT = 0
+#Seperate functions for seperate stages?
+#Store data in csv or database?
+
+
+def register_players():
+    global PLAYERS
+    global PLAYERS_COUNT 
+    while True:
+        newplayer = input("Enter Player's Name (or 'ready'?): ")
+        if newplayer.lower() == 'ready':
+            if len(PLAYERS) > 2:
+                break
+            print('You need more than just 1 player!')
+        if newplayer.lower() == 'exit':
+                print("EXITING")
+                del PLAYERS[:]
+                break
+        if newplayer.lower() in [x.lower() for x in PLAYERS]:
+            print("Name already exists!")
+        else:
+            PLAYERS.append(newplayer)
+    # PLAYERS_COUNT = len(PLAYERS)
+    random.shuffle(PLAYERS)
+
+    with open('players.csv',mode='w') as f:
+        fwriter = csv.writer(f, delimiter=',',quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        for player in PLAYERS:
+            fwriter.writerow(player)
+
+
+def read_players():
+    pass
+
+    
+
+
+def print_players():
+    print(PLAYERS)
+
+# def the_draft():
+#     while True:
+#         userready = input("~~~ Are you ready to start the draft? (y/n) ~~~")
+#         if userready.lower() == 'n':
+#             raise ValueError("Come back when you're ready!")
+#         elif userready.lower() == 'y':
+#             break
+#         else:
+#             print("Please enter a valid answer!")
+
+
+
+
+#     # HOW DO I MAKE DRAFT LOOP CHECK FOR VALID ENTRY
+#     while NFL_TEAMS_SHORT != 0:
+#         for players in PLAYERS:
+#             teaminput = True
+#             try:
+#                 teaminput = input(f"{player}, choose your team:")
+#                 assert teaminput in NFL_TEAMS_SHORT
+#             except:
+#                 print("Please enter a valid team name!")
+#                 continue
+
+#     while NFL_TEAMS_SHORT != 0:
+#         for player in PLAYERS:
+#             inputted = True
+#             while inputted not in NFL_TEAMS_SHORT:
+#                 inputted = input(f"{player}, choose your team:")
+#                 try:
+#                 inputted in NFL_TEAMS_SHORT 
+#                 except:
+#                     print("Please enter a valid team name!")
+#                     continue
+#             NFL_TEAMS_SHORT.remove(inputted)
+
+
 
 # FUNCTION Declare number of players, with names
 ## OR just use same names
@@ -15,3 +94,8 @@ PLAYERS = {'Jeremy Koo', 'Alex Butensky', 'Brian Watson', 'Jeremy Simon'}
 # FUNCTION metrics/stats call
 # Web scrape
 # Lena lecture beautiful soup 11/12
+
+
+
+# if __name__ == '__main__':
+#     globals()[sys.argv[1]]()
