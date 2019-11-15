@@ -49,7 +49,7 @@ def register_players():
             fwriter.writerow([player])
 
 
-def read_players():
+def read_players(): # Type Hint?
     PLAYERSREAD = []
     PLAYERSCOUNT = 0
     with open('players.csv',mode='r') as f:
