@@ -55,7 +55,8 @@ def read_players():
     with open('players.csv',mode='r') as f:
         freader = csv.reader(f, delimiter=',')
         for row in freader:
-            if row != []:
+            print(row)
+            if row != []: # Bug where csv writer adds extra lines here, but not appearing in ED environment
                 PLAYERSREAD.append(row)
                 PLAYERSCOUNT += 1
     print(PLAYERSREAD)
