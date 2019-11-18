@@ -8,6 +8,23 @@ NFL_TEAMS_SHORT = [(team.split()[-1]) for team in NFL_TEAMS]
 #Seperate functions for seperate stages?
 #Store data in csv or database?
 
+def load_menu():
+    while True:
+        print("1 - Register Players")
+        print("2 - Start the Draft!")
+        print("3 - EXIT")
+        inputtedz = eval(input("Select an option: \n"))
+        break
+    if inputtedz == 1:
+        register_players()
+    elif inputtedz == 2:
+        the_draft()
+    elif inputtedz ==3:
+        return
+    else:
+        print("Please enter a valid choice!")
+        load_menu()
+        
 
 def register_players():
     PLAYERS = []
@@ -27,7 +44,11 @@ def register_players():
         elif newplayer.lower() == 'ready':
             if len(PLAYERS) >= 2:
                 print("\tSaving players and shuffling draft order!")
-                return
+                with open('players.csv',mode='w') as f:
+                    fwriter = csv.writer(f, delimiter=',',quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                    for player in PLAYERS:
+                        fwriter.writerow([player])
+                break
             print('\tYou need at least 2 players!')
         elif newplayer.lower() == 'exit':
                 print("\tEXITING...")
@@ -43,10 +64,7 @@ def register_players():
     # PLAYERS_COUNT = len(PLAYERS)
     random.shuffle(PLAYERS)
 
-    with open('players.csv',mode='w') as f:
-        fwriter = csv.writer(f, delimiter=',',quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        for player in PLAYERS:
-            fwriter.writerow([player])
+
 
 
 def read_players(): # Type Hint?
@@ -68,7 +86,12 @@ def the_draft():
     global NFL_TEAMS_SHORT
     
     PLAYERS = read_players()
-    PLAYERSTOTAL = ((PLAYERS+PLAYERS[::-1])*int(len(NFL_TEAMS)/len(PLAYERS)))
+
+    if len(PLAYERS)==0:
+        print("You haven't registered any players!\n")
+        load_menu()
+    else:
+        PLAYERSTOTAL = ((PLAYERS+PLAYERS[::-1])*int(len(NFL_TEAMS)/len(PLAYERS)))
     
     i = 0
     while len(NFL_TEAMS) > 0:
@@ -146,4 +169,5 @@ def player_metrics():
 
 
 if __name__ == '__main__':
-    globals()[sys.argv[1]]()
+    # globals()[sys.argv[1]]()
+    load_menu()
