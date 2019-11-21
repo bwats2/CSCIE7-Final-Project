@@ -5,25 +5,24 @@ import csv
 NFL_TEAMS = ['Arizona Cardinals', 'Atlanta Falcons', 'Baltimore Ravens', 'Buffalo Bills', 'Carolina Panthers', 'Chicago Bears', 'Cincinnati Bengals', 'Cleveland Browns', 'Dallas Cowboys', 'Denver Broncos', 'Detroit Lions', 'Green Bay Packers', 'Houston Texans', 'Indianapolis Colts', 'Jacksonville Jaguars', 'Kansas City Chiefs', 'Los Angeles Chargers', 'Los Angeles Rams', 'Miami Dolphins', 'Minnesota Vikings', 'New England Patriots', 'New Orleans Saints', 'New York Giants', 'New York Jets', 'Oakland Raiders', 'Philadelphia Eagles', 'Pittsburgh Steelers', 'San Francisco 49ers', 'Seattle Seahawks', 'Tampa Bay Buccaneers', 'Tennessee Titans', 'Washington Redskins']
 NFL_TEAMS_SHORT = [(team.split()[-1]) for team in NFL_TEAMS]
 
-#Seperate functions for seperate stages?
+#Separate functions for seperate stages?
 #Store data in csv or database?
 
 def load_menu():
     while True:
+        print("\n~~WELCOME TO THE SNEK DRAFT!~~")
         print("1 - Register Players")
         print("2 - Start the Draft!")
         print("3 - EXIT")
-        inputtedz = eval(input("Select an option: \n"))
-        break
-    if inputtedz == 1:
-        register_players()
-    elif inputtedz == 2:
-        the_draft()
-    elif inputtedz ==3:
-        return
-    else:
-        print("Please enter a valid choice!")
-        load_menu()
+        print("====================")
+        inputtedz = input("Select an option: ")
+        if inputtedz == "1":
+            register_players()
+        if inputtedz == "2":
+            the_draft()
+        if inputtedz == "3":
+            return
+        print("\t~~ERROR: Please enter a valid choice!~~")
         
 
 def register_players():
@@ -169,5 +168,5 @@ def player_metrics():
 
 
 if __name__ == '__main__':
-    # globals()[sys.argv[1]]()
+    # globals()[sys.argv[1]]() # Runs function directly that is called as argv[1]
     load_menu()
