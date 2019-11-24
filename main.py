@@ -64,8 +64,6 @@ def register_players():
     random.shuffle(PLAYERS)
 
 
-
-
 def read_players(): # Type Hint?
     PLAYERSREAD = []
     # PLAYERSCOUNT = 0
@@ -78,6 +76,14 @@ def read_players(): # Type Hint?
                     PLAYERSREAD.append(item)
                 # PLAYERSCOUNT += 1
     return(PLAYERSREAD)
+
+
+def checkKeyAndAdd(dic, key, team):  
+    if key in dic: 
+        dic[key].append(team)
+    else: 
+        dic[key]=[]
+        dic[key].append(team)
 
 
 def the_draft():
@@ -93,8 +99,9 @@ def the_draft():
         PLAYERSTOTAL = ((PLAYERS+PLAYERS[::-1])*int(len(NFL_TEAMS)/len(PLAYERS)))
     
     i = 0
-    while len(NFL_TEAMS) > 0:
-        for player in PLAYERSTOTAL:
+    dict = {}
+    for player in PLAYERSTOTAL:
+        while len(NFL_TEAMS) > 31:
             inputted = input(f"\n{player}, choose a team: ")
             print(inputted)
             inputted_team = NFL_TEAMS[NFL_TEAMS_SHORT.index(inputted)]
@@ -102,9 +109,16 @@ def the_draft():
             del NFL_TEAMS_SHORT[NFL_TEAMS_SHORT.index(inputted)]
             print(f"\tThese are the teams left: {NFL_TEAMS}") # Can I print items in list comma sep?
             i += 1
-            with open('teamschosen.csv',mode='a') as f: # a means append
-                fwriter = csv.writer(f, delimiter=',',quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                fwriter.writerow([i, player, inputted_team])
+            checkKeyAndAdd(dict, player, inputted_team)
+            print(dict)
+            # with open('teamschosen.csv',mode='a') as f: # a means append
+            #     fwriter = csv.writer(f, delimiter=',',quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            #     fwriter.writerow([i, player, inputted_team])
+        break
+    with open('teamschosendict.csv', mode='w') as f:
+            fwriter = csv.writer(f, delimiter=',',quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            for item in dict:
+                fwriter.writerow(item)
     print("The DRAFT is done!")
     return
 
