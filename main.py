@@ -4,6 +4,8 @@
 import random # Random used to shuffle draft order
 import csv # CSV used to store data
 from typing import List # Allow type hint for lists
+from collections import defaultdict # Allows us to use defaultdict instead of lbyl, per class
+
 
 # Declare global list variables containing teams and teams short names
 NFL_TEAMS = ['Arizona Cardinals', 'Atlanta Falcons', 'Baltimore Ravens', 'Buffalo Bills', 'Carolina Panthers', 'Chicago Bears', 'Cincinnati Bengals', 'Cleveland Browns', 'Dallas Cowboys', 'Denver Broncos', 'Detroit Lions', 'Green Bay Packers', 'Houston Texans', 'Indianapolis Colts', 'Jacksonville Jaguars', 'Kansas City Chiefs', 'Los Angeles Chargers', 'Los Angeles Rams', 'Miami Dolphins', 'Minnesota Vikings', 'New England Patriots', 'New Orleans Saints', 'New York Giants', 'New York Jets', 'Oakland Raiders', 'Philadelphia Eagles', 'Pittsburgh Steelers', 'San Francisco 49ers', 'Seattle Seahawks', 'Tampa Bay Buccaneers', 'Tennessee Titans', 'Washington Redskins']
@@ -84,11 +86,7 @@ def read_players() -> List:
 
 def checkKeyAndAdd(dic, key, team):  
     "Checks if player and team in dict, and adds to list in value"
-    if key in dic: # Check if key in dict
-        dic[key].append(team)
-    else: 
-        dic[key]=[] # If key not in dict, init list as value
-        dic[key].append(team)
+    dic[key].append(team) # Defaultdict(list) means it will init list for keys, and we don't have to lbyl
 
 
 def the_draft():
@@ -103,7 +101,7 @@ def the_draft():
         load_menu()
     else:
         PLAYERSTOTAL = ((PLAYERS+PLAYERS[::-1])*int(len(NFL_TEAMS)/len(PLAYERS))+PLAYERS[:(len(NFL_TEAMS)%len(PLAYERS))]) # Creates full list of players order in snake chain
-    dic = {}
+    dic = defaultdict(list)
     i = 0
     for player in PLAYERSTOTAL:
         while True and i != 32:
@@ -118,7 +116,7 @@ def the_draft():
                 break
             except:
                 print("\tERROR. Enter a valid team name OR team already taken. Ex/Enter 'Patriots' for the 'New England Patriots'.")
-    with open('teamschosendict.csv','w') as f: # https://stackoverflow.com/questions/10373247/how-do-i-write-a-python-dictionary-to-a-csv-file
+    with open('teamschosendict.csv','w', newline='') as f: # https://stackoverflow.com/questions/10373247/how-do-i-write-a-python-dictionary-to-a-csv-file
         w = csv.writer(f)
         w.writerow(dic.keys())
         w.writerow(dic.values())
