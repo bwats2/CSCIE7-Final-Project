@@ -13,9 +13,9 @@ my_table = soup.find('table',{'class':'multicol'})
 # print(my_table)
 links = my_table.find_all('td')
 # print(links)
-teamscores = []
-for link in links:
-    teamscores.append(link.text.strip())
+teamscores = [link.text.strip() for link in links]
+# for link in links:
+#     teamscores.append(link.text.strip())
 print(teamscores)
 # index = teamscores.index("New Orlean Saints")
 # print(teamscores[index])
@@ -32,6 +32,9 @@ print(teamscores)
 # print(teamindex[0])
 
 # https://stackoverflow.com/questions/4146009/python-get-list-indexes-using-regular-expression
+from collections import defaultdict
+
+teamscoredict = defaultdict(int) # Dict to hold team and score value
 for team in NFL_TEAMS:
     print(team)
     # Wikipedia sometimes adds characters to start or end of team name in table
@@ -39,7 +42,10 @@ for team in NFL_TEAMS:
     print(teamscores[teamindex[0]])
     wins = int(teamscores[teamindex[0]+1])
     ties = int(teamscores[teamindex[0]+3])
+    score = wins+ties/2
     print(f"wins: {wins}")
     print("losses: ",teamscores[teamindex[0]+2])
     print(f"ties: {ties}")
-    print(wins+ties/2)
+    print(score)
+    teamscoredict[team] = score
+print(teamscoredict)
