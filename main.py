@@ -29,6 +29,15 @@ def load_menu():
             player_metrics()
         elif inputtedz == "4":
             break
+        elif inputtedz == "webscrape": # 'Hidden' developer option to see all webscraped data
+            print(webscrape())
+        elif inputtedz=="readplayers": # 'Hidden' developer option to see all players
+            print(read_players())
+        elif inputtedz=="readdraft": # 'Hidden' developer option to see players with teams drafted
+            readplayers = read_draft()
+            for i in range(len(readplayers[0])):
+                print(readplayers[0][i])
+                print(readplayers[1][i])
         else:
             print("\t~~ERROR: Please enter a valid choice!~~")
         
@@ -157,7 +166,7 @@ def read_draft() -> List:
 
 
 def player_metrics():
-    "Scrapes web data to provide total sum score of players' teams, and who is winning."
+    "Returns in descending order list of players based on current scores"
     scrapedict = webscrape() # Runs the webscrape
     draftresults = read_draft() # Reads from csv
     if len(draftresults)==0: # Checks if draft happened
