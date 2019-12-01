@@ -1,6 +1,6 @@
 import random # Random used to shuffle draft order
 import csv # CSV used to store data
-from typing import List, Dict # Allow type hint for lists
+from typing import List, Dict # Allow type hint for lists, dict
 from collections import defaultdict # Allows us to use defaultdict instead of lbyl, per class
 import requests # Needed for webscraping
 from bs4 import BeautifulSoup # Needed for webscraping
@@ -14,7 +14,7 @@ NFL_TEAMS_SHORT_MAIN = [(team.split()[-1]) for team in NFL_TEAMS_MAIN]
 def load_menu():
     "Prints the starting/default menu for the draft process, and directs user to function based on input"
     while True:
-        print("\n~~WELCOME TO THE SNEK DRAFT!~~")
+        print("\n~~WELCOME TO THE SNEK DRAFT!~~") # My friends have always called it 'Snek' instead of 'Snake' as a joke
         print("1 - Register Players!")
         print("2 - Start the Draft!")
         print("3 - Get the Stats!")
@@ -101,13 +101,15 @@ def the_draft():
     else:
         PLAYERSTOTAL = ((PLAYERS+PLAYERS[::-1])*int(len(NFL_TEAMS)/len(PLAYERS))+PLAYERS[:(len(NFL_TEAMS)%len(PLAYERS))]) # Creates full list of players order in snake chain
     dic = defaultdict(list)
-    i = 0
+    i = 0 # Counter to store draft selection number
     for player in PLAYERSTOTAL:
         while True and i != 32:
             inputted = input(f"\n{player}, choose a team: ")
+            if inputted in ('exit', 'Exit'):
+                raise Exception("EXITING") # Allow exit of draft
             try: # Try-Except block to ensure valid team name entered
                 inputted_team = NFL_TEAMS[NFL_TEAMS_SHORT.index(inputted)]
-                del NFL_TEAMS[NFL_TEAMS_SHORT.index(inputted)]
+                del NFL_TEAMS[NFL_TEAMS_SHORT.index(inputted)] # Deleting chosen teams from list
                 del NFL_TEAMS_SHORT[NFL_TEAMS_SHORT.index(inputted)]
                 print(f"\tThese are the {len(NFL_TEAMS)} teams left: {NFL_TEAMS}")
                 checkKeyAndAdd(dic, player, inputted_team)
@@ -117,10 +119,10 @@ def the_draft():
                 print("\tERROR. Enter a valid team name OR team already taken. Ex/Enter 'Patriots' for the 'New England Patriots'.")
     with open('teamschosendict.csv','w', newline='') as f: # https://stackoverflow.com/questions/10373247/how-do-i-write-a-python-dictionary-to-a-csv-file
         w = csv.writer(f)
-        w.writerow(dic.keys())
-        w.writerow(dic.values())
+        w.writerow(dic.keys()) # Storing players as row 1
+        w.writerow(dic.values()) # Storing teams chosen by players as row 2
     print("The DRAFT is done!")
-    load_menu()
+
 
 def webscrape() -> Dict:
     "Scrapes web data into dictionary that gets returned"
@@ -156,8 +158,8 @@ def read_draft() -> List:
 
 def player_metrics():
     "Scrapes web data to provide total sum score of players' teams, and who is winning."
-    scrapedict = webscrape()
-    draftresults = read_draft()
+    scrapedict = webscrape() # Runs the webscrape
+    draftresults = read_draft() # Reads from csv
     if len(draftresults)==0: # Checks if draft happened
         print("You haven't drafted teams - do the draft and try again!\n")
         load_menu()
@@ -172,8 +174,8 @@ def player_metrics():
     # https://thispointer.com/python-how-to-sort-a-dictionary-by-key-or-value/
     print("\nCurrent order of players from first to last: ")
     print("----------------------")
-    [print(key, "-", value) for (key, value) in sorted(playertotals.items() , reverse=True, key=lambda x: x[1])]
-    load_menu()
+    [print("\t",key, "-", value) for (key, value) in sorted(playertotals.items() , reverse=True, key=lambda x: x[1])] # Sorts and prints dictionary from high to low based on values
+
 
 if __name__ == '__main__':
     load_menu() # Loads menu when called
