@@ -1,6 +1,4 @@
 # TODO: Type Hints?
-#Defaultdict?
-
 import random # Random used to shuffle draft order
 import csv # CSV used to store data
 from typing import List # Allow type hint for lists
