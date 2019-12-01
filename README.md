@@ -1,7 +1,6 @@
 # CSCIE7 Final Project (README.md)
-# Title: Snek Draft
 
-**Mental Health Support** is a lightweight web app designed to help users who struggle with mental health and wellbeing, with a low
+**Snek Draft** is a lightweight web app designed to help users who struggle with mental health and wellbeing, with a low
 barrier-to-entry mental health tracking journal/tool and available resources. The app does not get users bogged down with details,
 rather focusing on simplicity and minimalism.
 
