@@ -1,0 +1,5 @@
+PLAYERS = ("Brian", "Butensky", "Simon", "koo")
+PLAYERSTOTAL = ((PLAYERS+PLAYERS[::-1])*int(16/len(PLAYERS))+PLAYERS[:(32%len(PLAYERS))])
+print(32%3)
+print(PLAYERSTOTAL)
+print(len(PLAYERSTOTAL))

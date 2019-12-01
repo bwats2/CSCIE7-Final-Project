@@ -1,184 +1,134 @@
-import sys
-import random
-import csv
+# TODO: Type Hints?
+#Defaultdict?
 
+import random # Random used to shuffle draft order
+import csv # CSV used to store data
+from typing import List # Allow type hint for lists
+
+# Declare global list variables containing teams and teams short names
 NFL_TEAMS = ['Arizona Cardinals', 'Atlanta Falcons', 'Baltimore Ravens', 'Buffalo Bills', 'Carolina Panthers', 'Chicago Bears', 'Cincinnati Bengals', 'Cleveland Browns', 'Dallas Cowboys', 'Denver Broncos', 'Detroit Lions', 'Green Bay Packers', 'Houston Texans', 'Indianapolis Colts', 'Jacksonville Jaguars', 'Kansas City Chiefs', 'Los Angeles Chargers', 'Los Angeles Rams', 'Miami Dolphins', 'Minnesota Vikings', 'New England Patriots', 'New Orleans Saints', 'New York Giants', 'New York Jets', 'Oakland Raiders', 'Philadelphia Eagles', 'Pittsburgh Steelers', 'San Francisco 49ers', 'Seattle Seahawks', 'Tampa Bay Buccaneers', 'Tennessee Titans', 'Washington Redskins']
 NFL_TEAMS_SHORT = [(team.split()[-1]) for team in NFL_TEAMS]
 
-#Separate functions for seperate stages?
-#Store data in csv or database?
 
 def load_menu():
+    "Prints the starting/default menu for the draft process, and directs user to function based on input"
     while True:
         print("\n~~WELCOME TO THE SNEK DRAFT!~~")
-        print("1 - Register Players")
+        print("1 - Register Players!")
         print("2 - Start the Draft!")
-        print("3 - EXIT")
+        print("3 - Get the Stats!")
+        print("4 - EXIT")
         print("====================")
         inputtedz = input("Select an option: ")
         if inputtedz == "1":
             register_players()
-        if inputtedz == "2":
+        elif inputtedz == "2":
             the_draft()
-        if inputtedz == "3":
-            return
-        print("\t~~ERROR: Please enter a valid choice!~~")
+        elif inputtedz == "3":
+            player_metrics()
+        elif inputtedz == "4":
+            break
+        else:
+            print("\t~~ERROR: Please enter a valid choice!~~")
         
 
 def register_players():
-    PLAYERS = []
-    # PLAYERS_COUNT = 0
-    # global PLAYERS
-    # global PLAYERS_COUNT 
+    "Takes user through the player registration process"
+    PLAYERS = [] # Init list to hold players
     while True:
-        if len(PLAYERS) > 0:
+        # Erases any existing data by wiping file clean
+        with open('players.csv', 'r+') as f:# https://stackoverflow.com/questions/29579448/how-to-delete-a-csv-file-in-python
+            f.truncate(0) # "Need '0' when using r+"", per source above
+        if len(PLAYERS) > 0: # Prints list of current players if a player has been entered
             print(f"\nCurrent Players: ({len(PLAYERS)}) {PLAYERS}")
         newplayer = input("  Enter Player's Name (or 'ready'?): ")
-        if newplayer.lower() == 'delete':
-            if len(PLAYERS) < 1:
+        if newplayer.lower() == 'delete': # Allows player to delete last entered
+            if len(PLAYERS) < 1: # Checks if there is something to delete
                 print("\tNothing to delete!")
             else:
-                print(f"\tDeleting {PLAYERS[-1]}")
+                print(f"\tDeleting {PLAYERS[-1]}") # Deletes last player entered
                 PLAYERS.pop(-1)
         elif newplayer.lower() == 'ready':
-            if len(PLAYERS) >= 2:
+            if len(PLAYERS) >= 2: # Checks if appropriate number of players entered
                 print("\tSaving players and shuffling draft order!")
-                with open('players.csv',mode='w') as f:
-                    fwriter = csv.writer(f, delimiter=',',quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                random.shuffle(PLAYERS) # Shuffle player order
+                with open('players.csv',mode='w', newline='') as f: # https://stackoverflow.com/questions/3348460/csv-file-written-with-python-has-blank-lines-between-each-row
+                    fwriter = csv.writer(f)
                     for player in PLAYERS:
                         fwriter.writerow([player])
                 break
             print('\tYou need at least 2 players!')
-        elif newplayer.lower() == 'exit':
+        elif newplayer.lower() == 'exit': # Allows user to exit stage
                 print("\tEXITING...")
                 del PLAYERS[:]
                 print("\t...All players deleted!")
-                return
-        elif newplayer.lower() in [x.lower() for x in PLAYERS]:
+                break
+        elif newplayer.lower() in [x.lower() for x in PLAYERS]: # Checks if name already entered
             print("\tName already exists!")
-        elif newplayer in (""," ","   "):
+        elif newplayer.strip() == "": # Prevents blank/empty names
             print("\tEnter a valid name!")
         else:
-            PLAYERS.append(newplayer)
-    # PLAYERS_COUNT = len(PLAYERS)
-    random.shuffle(PLAYERS)
+            PLAYERS.append(newplayer) # Adds player to the list
 
 
-def read_players(): # Type Hint?
-    PLAYERSREAD = []
-    # PLAYERSCOUNT = 0
+def read_players() -> List:
+    "Reads players from csv file, and returns list of players"
+    PLAYERSREAD = [] # Init list to store players read from csv
     with open('players.csv',mode='r') as f:
         freader = csv.reader(f, delimiter=',')
         for row in freader:
-            # print(row)
-            if row != []: # Bug where csv writer adds extra lines here, but not appearing in ED environment
-                for item in row:
-                    PLAYERSREAD.append(item)
-                # PLAYERSCOUNT += 1
-    return(PLAYERSREAD)
+            for item in row:
+                PLAYERSREAD.append(item)
+    return(PLAYERSREAD) # Return list of players read
 
 
 def checkKeyAndAdd(dic, key, team):  
-    if key in dic: 
+    "Checks if player and team in dict, and adds to list in value"
+    if key in dic: # Check if key in dict
         dic[key].append(team)
     else: 
-        dic[key]=[]
+        dic[key]=[] # If key not in dict, init list as value
         dic[key].append(team)
 
 
 def the_draft():
+    "Takes user through the draft process"
+    with open('teamschosendict.csv', 'r+') as f: #erase existing data
+        f.truncate(0)
     global NFL_TEAMS
     global NFL_TEAMS_SHORT
-    
     PLAYERS = read_players()
-
-    if len(PLAYERS)==0:
-        print("You haven't registered any players!\n")
+    if len(PLAYERS)==0: # Checks if there are players registered
+        print("You haven't registered any players - register some players and try again!\n")
         load_menu()
     else:
-        PLAYERSTOTAL = ((PLAYERS+PLAYERS[::-1])*int(len(NFL_TEAMS)/len(PLAYERS)))
-    
+        PLAYERSTOTAL = ((PLAYERS+PLAYERS[::-1])*int(len(NFL_TEAMS)/len(PLAYERS))+PLAYERS[:(len(NFL_TEAMS)%len(PLAYERS))]) # Creates full list of players order in snake chain
+    dic = {}
     i = 0
-    dict = {}
     for player in PLAYERSTOTAL:
-        while len(NFL_TEAMS) > 31:
+        while True and i != 32:
             inputted = input(f"\n{player}, choose a team: ")
-            print(inputted)
-            inputted_team = NFL_TEAMS[NFL_TEAMS_SHORT.index(inputted)]
-            del NFL_TEAMS[NFL_TEAMS_SHORT.index(inputted)]
-            del NFL_TEAMS_SHORT[NFL_TEAMS_SHORT.index(inputted)]
-            print(f"\tThese are the teams left: {NFL_TEAMS}") # Can I print items in list comma sep?
-            i += 1
-            checkKeyAndAdd(dict, player, inputted_team)
-            print(dict)
-            # with open('teamschosen.csv',mode='a') as f: # a means append
-            #     fwriter = csv.writer(f, delimiter=',',quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            #     fwriter.writerow([i, player, inputted_team])
-        break
-    with open('teamschosendict.csv', mode='w') as f:
-            fwriter = csv.writer(f, delimiter=',',quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            for item in dict:
-                fwriter.writerow(item)
+            try: # Try-Except block to ensure valid team name entered
+                inputted_team = NFL_TEAMS[NFL_TEAMS_SHORT.index(inputted)]
+                del NFL_TEAMS[NFL_TEAMS_SHORT.index(inputted)]
+                del NFL_TEAMS_SHORT[NFL_TEAMS_SHORT.index(inputted)]
+                print(f"\tThese are the {len(NFL_TEAMS)} teams left: {NFL_TEAMS}")
+                checkKeyAndAdd(dic, player, inputted_team)
+                i+=1
+                break
+            except:
+                print("\tERROR. Enter a valid team name OR team already taken. Ex/Enter 'Patriots' for the 'New England Patriots'.")
+    with open('teamschosendict.csv','w') as f: # https://stackoverflow.com/questions/10373247/how-do-i-write-a-python-dictionary-to-a-csv-file
+        w = csv.writer(f)
+        w.writerow(dic.keys())
+        w.writerow(dic.values())
     print("The DRAFT is done!")
-    return
+    load_menu()
+
 
 def player_metrics():
+    "Scrapes web date to provide total sum score of players' teams, and who is winning."
     pass
-
-
-# def print_players():
-#     print(PLAYERS)
-
-# def the_draft():
-#     while True:
-#         userready = input("~~~ Are you ready to start the draft? (y/n) ~~~")
-#         if userready.lower() == 'n':
-#             raise ValueError("Come back when you're ready!")
-#         elif userready.lower() == 'y':
-#             break
-#         else:
-#             print("Please enter a valid answer!")
-
-
-
-
-#     # HOW DO I MAKE DRAFT LOOP CHECK FOR VALID ENTRY
-#     while NFL_TEAMS_SHORT != 0:
-#         for players in PLAYERS:
-#             teaminput = True
-#             try:
-#                 teaminput = input(f"{player}, choose your team:")
-#                 assert teaminput in NFL_TEAMS_SHORT
-#             except:
-#                 print("Please enter a valid team name!")
-#                 continue
-
-#     while NFL_TEAMS_SHORT != 0:
-#         for player in PLAYERS:
-#             inputted = True
-#             while inputted not in NFL_TEAMS_SHORT:
-#                 inputted = input(f"{player}, choose your team:")
-#                 try:
-#                 inputted in NFL_TEAMS_SHORT 
-#                 except:
-#                     print("Please enter a valid team name!")
-#                     continue
-#             NFL_TEAMS_SHORT.remove(inputted)
-
-
-
-# FUNCTION Declare number of players, with names
-## OR just use same names
-# Determine random order
-
-# FUNCTION draft
-# Insert into spreadsheet
-
-# FUNCTION metrics/stats call
-# Web scrape
-# Lena lecture beautiful soup 11/12
-
-
 
 
 if __name__ == '__main__':

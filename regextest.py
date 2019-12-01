@@ -1,4 +1,12 @@
 import re
-s = 'put the pot on the spit a'
-m = re.findfirst('p.t',s)
-print(m)
+
+def fraction(phrase: str) -> str:
+    "Return first fraction or blank"
+    find = '[+-]\d\d*/\d\d*'
+    match = re.search(find, phrase)
+    if match:
+        return match
+    else:
+        return ""
+
+print(fraction("This is +1 /3 true and -2/ 3 false"))
