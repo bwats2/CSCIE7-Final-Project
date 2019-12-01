@@ -6,8 +6,8 @@ from collections import defaultdict # Allows us to use defaultdict instead of lb
 
 
 # Declare global list variables containing teams and teams short names
-NFL_TEAMS = ['Arizona Cardinals', 'Atlanta Falcons', 'Baltimore Ravens', 'Buffalo Bills', 'Carolina Panthers', 'Chicago Bears', 'Cincinnati Bengals', 'Cleveland Browns', 'Dallas Cowboys', 'Denver Broncos', 'Detroit Lions', 'Green Bay Packers', 'Houston Texans', 'Indianapolis Colts', 'Jacksonville Jaguars', 'Kansas City Chiefs', 'Los Angeles Chargers', 'Los Angeles Rams', 'Miami Dolphins', 'Minnesota Vikings', 'New England Patriots', 'New Orleans Saints', 'New York Giants', 'New York Jets', 'Oakland Raiders', 'Philadelphia Eagles', 'Pittsburgh Steelers', 'San Francisco 49ers', 'Seattle Seahawks', 'Tampa Bay Buccaneers', 'Tennessee Titans', 'Washington Redskins']
-NFL_TEAMS_SHORT = [(team.split()[-1]) for team in NFL_TEAMS]
+NFL_TEAMS_MAIN = ['Arizona Cardinals', 'Atlanta Falcons', 'Baltimore Ravens', 'Buffalo Bills', 'Carolina Panthers', 'Chicago Bears', 'Cincinnati Bengals', 'Cleveland Browns', 'Dallas Cowboys', 'Denver Broncos', 'Detroit Lions', 'Green Bay Packers', 'Houston Texans', 'Indianapolis Colts', 'Jacksonville Jaguars', 'Kansas City Chiefs', 'Los Angeles Chargers', 'Los Angeles Rams', 'Miami Dolphins', 'Minnesota Vikings', 'New England Patriots', 'New Orleans Saints', 'New York Giants', 'New York Jets', 'Oakland Raiders', 'Philadelphia Eagles', 'Pittsburgh Steelers', 'San Francisco 49ers', 'Seattle Seahawks', 'Tampa Bay Buccaneers', 'Tennessee Titans', 'Washington Redskins']
+NFL_TEAMS_SHORT_MAIN = [(team.split()[-1]) for team in NFL_TEAMS]
 
 
 def load_menu():
@@ -91,8 +91,8 @@ def the_draft():
     "Takes user through the draft process"
     with open('teamschosendict.csv', 'r+') as f: #erase existing data
         f.truncate(0)
-    global NFL_TEAMS
-    global NFL_TEAMS_SHORT
+    NFL_TEAMS = NFL_TEAMS_MAIN[:]
+    NFL_TEAMS_SHORT = NFL_TEAMS_SHORT_MAIN[:]
     PLAYERS = read_players()
     if len(PLAYERS)==0: # Checks if there are players registered
         print("You haven't registered any players - register some players and try again!\n")
