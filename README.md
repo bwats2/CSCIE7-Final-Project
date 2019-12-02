@@ -1,55 +1,29 @@
-# CSCIE7 Final Project (README.md)
+# CSCIE7 Final Project: Snek Draft (README.md)
 
-**Snek Draft** is a lightweight web app designed to help users who struggle with mental health and wellbeing, with a low
-barrier-to-entry mental health tracking journal/tool and available resources. The app does not get users bogged down with details,
-rather focusing on simplicity and minimalism.
+## Describe the Problem:
+**Snek Draft** was built to automate what is currently a manual process amongst my friends. For the past 4 years we have been participating in an informal snake-chain fantasy football draft (the ‘snake’ describes the way teams are drafted; ['snek'](https://knowyourmeme.com/memes/snek) is due to internet memes and millenial humor). We randomly choose an order, and then take turns drafting. We record who chose what team-by-team by searching through a spreadsheet and writing their name next to the team name. Only recently did we start using IMPORTRANGE to pull data into the spreadsheet; previously one of us would update the scores after every game.
 
-## Motivation
-This project exists as I am acutely aware of issues related to mental health and wellbeing, having faced them most my life, and
-having many loved ones with similiar hardships. I was inspired by the Google Trusted Contacts app when I first saw it a couple
-years ago https://contacts.google.com/trustedcontacts/, and wanting to reduce the mental health stigma and provide support for
-others, as with depression for example it can be hard to reach out for help due to percieved/real barriers. The project design and
-scope was beta tested with several individuals to make sure that it's potential for beneficial impact could be generalized to a
-wide audience.
+## Tools Used to Solve the Problem: 
+This program relied heavily on csv (for long-term data storage), defaultdict (for short-term data storage), BeautifulSoup (for web scraping), and input() (to collect user input from the command line). [Visual Studio Code](https://code.visualstudio.com/) was the IDE I used (and highly recommend!) to develop this program. 
 
-## Build Status
-The project currently operates in the intended manner, i.e., a user can register/login, write/read journal entries, and
-register/contact a Support Contact, all in a mobile-optimized web app. Desired elements to be added in the future include: web.apk
-integration (so that users could download the app to their mobile), and a data export feature (so that users could download their
-data either for their own needs, or to possible share with a mental health professional). I would also love to coordinate with a
-mental health professional in the future to build out resources and better structured journaling methodology (with improved
-impact).
+## Learnings:
+This project was an incredibly fun way to learn more about project development in terms of the iterative/incremental process (helping me to finally understand Agile). While assignments in class were quick 'one-offs', this project required more overall planning and thoughtfulness.
 
-## Code/Tech/Framework Used
-Python Flask backend (controller), SQL database (model), bootstrap/jinja-styled html webpages (view).
+From this project I solidified my understanding of loops, git, defining/calling function, dictionaries, reading/writing csv files, collecting input from the command line, and *especially* debugging in an IDE.
 
-## Screenshots
-The homepage features a minimalist, clean design, and gets the user directly to the key function of the app: writing a
-journal entry: ![Image of the main screen (homepage)](/static/images/mainscreen.png "Main Screen")
+Learning web scraping has been a goal of mine for a while, and was one of the most enjoyably frustrating parts of this project. I am definitely looking forward to exploring BeautifulSoup more, as I either enhance this program or dive into another personal project.
 
-## Features
-This web app is unique in that it uses the Cognitive Distortions framework for mental health journaling. By structuring the
-journal entry input in this manner, it allows for constructive journaling rather than boundless self-writes that might
-prove detrimental in allowing users to negatively thought spiral. The Support Contact implementation is something that I
-have never encountered before. In times of mental illness, perceieved/real barriers can prevent an individual from reaching
-out to their support network. By having a direct push button contact method for the Support Contact, this helps mitigate that
-problem.
+## Limitations:
+While this project accomplishes the goal of creating a Python implementation of my friend group's **Snek Draft**, it does not go beyond the output that is currently in place. With the power of web scraping, it would be interesting to see more statistics and team metrics, such as team performance over time, division/league comparisons, and betting odds.
 
-## Initiatlization
-This project currently lives in the CS50 IDE. To initiatlize, execute "Flask Run" in a command terminal that has
-been opened up to the main folder where all the files/sub-folders are stored.
+Currently, the draft is setup to require that it happens in one single instance. This means that while draft results are stored in a csv, the draft cannot be 'paused' and then resumed at a later point. While this reflects the current process amongst my friend group, I would address this limitation by adding logic for detecting a pre-existing partial draft potentially using/storing a draft round counter variable.
 
-## How to use?
-1. User is directed to log-in screen if not logged in. Select "Register" at top right.
-2. Register for an account. Upon successful registration, user will be logged in.
-3. The homepage is the 'Write' page, where user can write a journal entry. At least one of the 5 text fields must be filled out.
-4. The user will be directed to the 'Read' page (also available in the navbar). User can select an entry to read.
-5. Once an entry is selected, user will be directed to their journal entry based on that selection.
-6. The 'Get Help' page features a list of helpful resources. If logged in, the user also has the option to contact their Support Contact directly via a button push.
-7. The user can change their password/support contact in the 'About' page.
-8. They can also choose to delete all their data if they click the button at the very bottom of the 'About' page and then confirm on the 'Delete' page.
+## Screenshots/Walkthrough:
+Video walkthrough available here: https://youtu.be/Yrg6RowBKZc
 
-Video walkthrough available here: <https://www.youtube.com/watch?v=EBItSfOlaXU>
+GitHub repo located here: https://github.com/bwats2/CSCIE7-Final-Project
 
-## Credits
-Resources used are commented throughout the project. I would like to thank my friends who helped try out the web app.
+Screenshot of the Main Menu:![Image of the text-based main menu](mainmenu.jpg "Main Menu")
+
+## Initialization/How-to-Use:
+Initialize main.py from the command line (python main.py). Follow main menu and subsequent prompts. User input is entered directly into the command line.

@@ -59,7 +59,7 @@ def register_players():
                 print(f"\tDeleting {PLAYERS[-1]}") # Deletes last player entered
                 PLAYERS.pop(-1)
         elif newplayer.lower() == 'ready':
-            if len(PLAYERS) >= 2: # Checks if appropriate number of players entered
+            if (len(PLAYERS) >= 2) and (len(NFL_TEAMS_MAIN)%len(PLAYERS))==0: # Checks if appropriate number of players entered
                 print("\tSaving players and shuffling draft order!")
                 random.shuffle(PLAYERS) # Shuffle player order
                 with open('players.csv',mode='w', newline='') as f: # https://stackoverflow.com/questions/3348460/csv-file-written-with-python-has-blank-lines-between-each-row
@@ -67,7 +67,7 @@ def register_players():
                     for player in PLAYERS:
                         fwriter.writerow([player])
                 break
-            print('\tYou need at least 2 players!')
+            print('\tYou need at least 2 players, AND a factor of 32!')
         elif newplayer.lower() == 'exit': # Allows user to exit stage
                 print("\tEXITING...")
                 del PLAYERS[:]
