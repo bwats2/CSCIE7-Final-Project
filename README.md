@@ -23,7 +23,7 @@ Video walkthrough available here: https://youtu.be/Yrg6RowBKZc
 
 GitHub repo located here: https://github.com/bwats2/CSCIE7-Final-Project
 
-Screenshot of the Main Menu:![Image of the text-based main menu](https://github.com/bwats2/CSCIE7-Final-Project/blob/master/MainMenu.jpg "Main Menu")
+Screenshot of the Main Menu: ![Image of the text-based main menu](https://github.com/bwats2/CSCIE7-Final-Project/blob/master/MainMenu.jpg "Main Menu")
 
 ## Initialization/How-to-Use:
 Initialize main.py from the command line (python main.py). Follow main menu and subsequent prompts. User input is entered directly into the command line.
