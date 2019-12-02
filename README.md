@@ -23,7 +23,8 @@ Video walkthrough available here: https://youtu.be/Yrg6RowBKZc
 
 GitHub repo located here: https://github.com/bwats2/CSCIE7-Final-Project
 
-Screenshot of the Main Menu: 
+Screenshot of the Main Menu:
+
 ![Image of the text-based main menu](https://github.com/bwats2/CSCIE7-Final-Project/blob/master/MainMenu.jpg "Main Menu")
 
 ## Initialization/How-to-Use:
