@@ -1,7 +1,7 @@
 # CSCIE7 Final Project: Snek Draft (README.md)
 
 ## Describe the Problem:
-**Snek Draft** was built to automate what is currently a manual process amongst my friends. For the past 4 years we have been participating in an informal snake-chain fantasy football draft (the ‘snake’ describes the way teams are drafted; ['snek'](https://knowyourmeme.com/memes/snek) is due to internet memes and millenial humor). We randomly choose an order, and then take turns drafting. We record who chose what team-by-team by searching through a spreadsheet and writing their name next to the team name. Only recently did we start using IMPORTRANGE to pull data into the spreadsheet; previously one of us would update the scores after every game.
+**Snek Draft** was built to automate what is currently a manual process amongst my friends. For the past 4 years we have been participating in an informal snake-chain fantasy football draft (the ‘snake’ describes the way teams are drafted; ['snek'](https://knowyourmeme.com/memes/snek) is due to internet memes and millenial humor). We randomly choose an order, and then take turns drafting. We record who chose what team-by-team by searching through a spreadsheet and writing their name next to the team name. Only recently did we start using IMPORTHTML to pull data into the spreadsheet; previously one of us would update the scores after every game.
 
 ## Tools Used to Solve the Problem: 
 This program relied heavily on csv (for long-term data storage), defaultdict (for short-term data storage), BeautifulSoup (for web scraping), and input() (to collect user input from the command line). [Visual Studio Code](https://code.visualstudio.com/) was the IDE I used (and highly recommend!) to develop this program. 
